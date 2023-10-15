@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface BookingService {
     Optional<Booking> createBooking(Booking booking, Helper helper, Task task);
+    Optional<Booking> endBooking(Long bookingId);
 }

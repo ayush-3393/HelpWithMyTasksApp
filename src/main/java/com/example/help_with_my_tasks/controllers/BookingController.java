@@ -54,4 +54,14 @@ public class BookingController {
         return new ResponseEntity<>(bookingResponseDto, HttpStatus.OK);
     }
 
+    @PatchMapping("{bookingId}")
+    public ResponseEntity<BookingResponseDto> endBooking(@PathVariable(name = "bookingId") Long bookingId) throws NotFoundException {
+        Optional<Booking> bookingOptional = bookingService.endBooking(bookingId);
+        if (bookingOptional.isEmpty()){
+            throw new NotFoundException("Booking not found");
+        }
+        Booking booking = bookingOptional.get();
+        return new ResponseEntity<>(BookingUtility.convertBookingToBookingResponseDto(booking), HttpStatus.OK);
+    }
+
 }
