@@ -1,0 +1,26 @@
+package com.example.help_with_my_tasks.services;
+
+import com.example.help_with_my_tasks.models.Helper;
+import com.example.help_with_my_tasks.repositories.HelperRepository;
+import com.example.help_with_my_tasks.services.service_interfaces.HelperService;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class HelperServiceImpl implements HelperService {
+
+    private final HelperRepository helperRepository;
+
+    public HelperServiceImpl(HelperRepository helperRepository) {
+        this.helperRepository = helperRepository;
+    }
+
+    @Override
+    public Optional<Helper> createHelper(Helper helper) {
+        if (helper == null) {
+            return Optional.empty();
+        }
+        return Optional.of(helperRepository.save(helper));
+    }
+}
