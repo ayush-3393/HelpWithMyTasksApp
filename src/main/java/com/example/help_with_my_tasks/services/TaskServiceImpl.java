@@ -25,4 +25,12 @@ public class TaskServiceImpl implements TaskService {
         task.setHelpSeeker(helpSeeker);
         return Optional.of(taskRepository.save(task));
     }
+
+    @Override
+    public Optional<Task> getTaskById(Long id) {
+        if (id == null){
+            return Optional.empty();
+        }
+        return taskRepository.findById(id);
+    }
 }

@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface HelperService {
     Optional<Helper> createHelper(Helper helper);
+    Optional<Helper> getHelperById(Long id);
 }

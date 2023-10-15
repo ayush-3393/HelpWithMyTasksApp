@@ -23,4 +23,12 @@ public class HelperServiceImpl implements HelperService {
         }
         return Optional.of(helperRepository.save(helper));
     }
+
+    @Override
+    public Optional<Helper> getHelperById(Long id) {
+        if (id == null) {
+            return Optional.empty();
+        }
+        return helperRepository.findById(id);
+    }
 }
