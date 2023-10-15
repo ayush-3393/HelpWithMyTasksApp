@@ -6,6 +6,9 @@ import com.example.help_with_my_tasks.exceptions.NotFoundException;
 import com.example.help_with_my_tasks.models.Booking;
 import com.example.help_with_my_tasks.models.Helper;
 import com.example.help_with_my_tasks.models.Task;
+import com.example.help_with_my_tasks.models.enums.BookingStatus;
+import com.example.help_with_my_tasks.models.enums.HelperStatus;
+import com.example.help_with_my_tasks.models.enums.TaskStatus;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.HelperService;
 import com.example.help_with_my_tasks.services.service_interfaces.TaskService;
@@ -29,12 +32,15 @@ public class BookingController {
         this.helperService = helperService;
         this.taskService = taskService;
     }
-
+    /*
+    Creating a booking when a helper accepts a task. Booking is accepted, Helper is unavailable, Task is booked.
+    */
     @PostMapping("{helperId}/{taskId}")
     public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingRequestDto,
                                                             @PathVariable Long helperId,
                                                             @PathVariable Long taskId) throws NotFoundException {
         Booking booking = BookingUtility.convertBookingRequestDtoToBooking(bookingRequestDto);
+        booking.setBookingStatus(BookingStatus.ACCEPTED);
         Optional<Helper> helperOptional = helperService.getHelperById(helperId);
         if (helperOptional.isEmpty()){
             throw new NotFoundException("Helper not found");
@@ -44,7 +50,9 @@ public class BookingController {
             throw new NotFoundException("Task not found");
         }
         Helper helper = helperOptional.get();
+        helper.setHelperStatus(HelperStatus.UNAVAILABLE);
         Task task = taskOptional.get();
+        task.setTaskStatus(TaskStatus.BOOKED);
         Optional<Booking> bookingOptional = bookingService.createBooking(booking, helper, task);
         if (bookingOptional.isEmpty()){
             throw new NotFoundException("Booking not found");
@@ -61,6 +69,7 @@ public class BookingController {
             throw new NotFoundException("Booking not found");
         }
         Booking booking = bookingOptional.get();
+        booking.setBookingStatus(BookingStatus.COMPLETED);
         return new ResponseEntity<>(BookingUtility.convertBookingToBookingResponseDto(booking), HttpStatus.OK);
     }
 

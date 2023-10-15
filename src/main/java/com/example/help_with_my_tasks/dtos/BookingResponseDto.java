@@ -1,5 +1,6 @@
 package com.example.help_with_my_tasks.dtos;
 
+import com.example.help_with_my_tasks.models.enums.BookingStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +15,5 @@ public class BookingResponseDto {
     private String helperName;
     private String taskName;
     private String helpSeekerName;
+    private BookingStatus bookingStatus;
 }

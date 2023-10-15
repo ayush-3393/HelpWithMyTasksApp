@@ -1,8 +1,7 @@
 package com.example.help_with_my_tasks.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.example.help_with_my_tasks.models.enums.BookingStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,4 +20,7 @@ public class Booking extends BaseModel{
 
     private Integer amount;
     private Date bookingDate;
+
+    @Enumerated(EnumType.STRING)
+    private BookingStatus bookingStatus;
 }
