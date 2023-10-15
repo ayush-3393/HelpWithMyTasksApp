@@ -24,4 +24,9 @@ public class HelpSeekerServiceImpl implements HelpSeekerService {
         return Optional.of(helpSeekerRepository.save(helpSeeker));
     }
 
+    @Override
+    public Optional<HelpSeeker> getHelpSeekerById(Long helpSeekerId) {
+        return helpSeekerRepository.findById(helpSeekerId);
+    }
+
 }

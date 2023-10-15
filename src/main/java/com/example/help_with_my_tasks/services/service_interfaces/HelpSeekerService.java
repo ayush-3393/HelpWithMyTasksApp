@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface HelpSeekerService {
     Optional<HelpSeeker> createHelpSeeker(HelpSeeker helpSeeker);
+    Optional<HelpSeeker> getHelpSeekerById(Long helpSeekerId);
 }

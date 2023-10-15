@@ -1,5 +1,6 @@
 package com.example.help_with_my_tasks.dtos;
 
+import com.example.help_with_my_tasks.models.enums.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,5 +10,6 @@ import java.util.Date;
 public class TaskRequestDto {
     private String taskName;
     private String taskDescription;
+    private TaskStatus taskStatus;
     private Date taskDueDate;
 }
