@@ -5,6 +5,7 @@ import com.example.help_with_my_tasks.repositories.HelpSeekerRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.HelpSeekerService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,11 @@ public class HelpSeekerServiceImpl implements HelpSeekerService {
     @Override
     public Optional<HelpSeeker> getHelpSeekerById(Long helpSeekerId) {
         return helpSeekerRepository.findById(helpSeekerId);
+    }
+
+    @Override
+    public Optional<List<HelpSeeker>> getAllHelpSeekers() {
+        return Optional.of(helpSeekerRepository.findAll());
     }
 
 }

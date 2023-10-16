@@ -66,5 +66,28 @@ public class HelpSeekerController {
         allOpenTasksDto.setTasks(ans);
         return new ResponseEntity<>(allOpenTasksDto, HttpStatus.OK);
     }
+    @GetMapping("/{helpSeekerId}")
+    public ResponseEntity<HelpSeekerResponseDto> getHelpSeekerById(@PathVariable(name = "helpSeekerId") Long helpSeekerId) throws NotFoundException {
+        Optional<HelpSeeker> helpSeekerOptional = helpSeekerService.getHelpSeekerById(helpSeekerId);
+        if (helpSeekerOptional.isEmpty()){
+            throw new NotFoundException("Help Seeker with id " + helpSeekerId + " not found");
+        }
+        HelpSeekerResponseDto helpSeekerResponseDto =
+                HelpSeekerUtility.convertHelpSeekerToHelpSeekerResponseDto(helpSeekerOptional.get());
+        return new ResponseEntity<>(helpSeekerResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HelpSeekerResponseDto>> getAllHelpSeekers() throws NotFoundException {
+        Optional<List<HelpSeeker>> helpSeekerOptional = helpSeekerService.getAllHelpSeekers();
+        if (helpSeekerOptional.isEmpty()){
+            throw new NotFoundException("No help seekers found");
+        }
+        List<HelpSeekerResponseDto> helpSeekerResponseDtos = new ArrayList<>();
+        for (HelpSeeker helpSeeker : helpSeekerOptional.get()) {
+            helpSeekerResponseDtos.add(HelpSeekerUtility.convertHelpSeekerToHelpSeekerResponseDto(helpSeeker));
+        }
+        return new ResponseEntity<>(helpSeekerResponseDtos, HttpStatus.OK);
+    }
 
 }
