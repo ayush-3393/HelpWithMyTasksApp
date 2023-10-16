@@ -292,8 +292,17 @@ PATCH http://localhost:8090/bookings/{bookingId}
 }
 ```
 
+## Future Scope:
+1. Add security to the application, using Spring Security.
+2. Add unit test cases.
+3. Add integration test cases.
+4. Add logging.
+5. Add notification service.
+6. Add payment gateway.
+7. Add UI.
+8. Add feature of getting all the tasks in the nearby location of the Helper.
 
-#### Note:
+### Note:
 * The application is configured to run on port 8090.
 * The database is configured to run on port 3306.
 * The database name is "help_with_my_tasks_DB".
