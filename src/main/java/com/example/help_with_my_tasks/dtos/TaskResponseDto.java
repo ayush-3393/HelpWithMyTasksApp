@@ -17,4 +17,5 @@ public class TaskResponseDto {
     private String helpSeekerName;
     private TaskStatus taskStatus;
     private Date taskDueDate;
+    private Integer taskBudget;
 }

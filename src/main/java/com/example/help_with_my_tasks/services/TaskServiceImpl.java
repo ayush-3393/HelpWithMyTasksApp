@@ -40,10 +40,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<List<Task>> getOpenTasksForAHelpSeeker(HelpSeeker helpSeeker) {
+    public Optional<List<Task>> getBookedTasksForAHelpSeeker(HelpSeeker helpSeeker) {
         if (helpSeeker == null){
             return Optional.empty();
         }
-        return taskRepository.findAllByHelpSeekerAndTaskStatus(helpSeeker, TaskStatus.OPEN);
+        return taskRepository.findAllByHelpSeekerAndTaskStatus(helpSeeker, TaskStatus.BOOKED);
     }
 }

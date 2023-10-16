@@ -1,6 +1,5 @@
 package com.example.help_with_my_tasks.utilities;
 
-import com.example.help_with_my_tasks.dtos.BookingRequestDto;
 import com.example.help_with_my_tasks.dtos.BookingResponseDto;
 import com.example.help_with_my_tasks.models.Booking;
 import com.example.help_with_my_tasks.models.HelpSeeker;
@@ -9,11 +8,11 @@ import com.example.help_with_my_tasks.models.Task;
 
 public class BookingUtility {
 
-    public static Booking convertBookingRequestDtoToBooking(BookingRequestDto bookingRequestDto){
-        Booking booking = new Booking();
-        booking.setAmount(bookingRequestDto.getAmount());
-        return booking;
-    }
+//    public static Booking convertBookingRequestDtoToBooking(BookingRequestDto bookingRequestDto){
+//        Booking booking = new Booking();
+//        booking.setAmount(bookingRequestDto.getAmount());
+//        return booking;
+//    }
 
     public static BookingResponseDto convertBookingToBookingResponseDto(Booking booking){
         BookingResponseDto bookingResponseDto = new BookingResponseDto();

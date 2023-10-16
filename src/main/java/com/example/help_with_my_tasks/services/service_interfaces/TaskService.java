@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface TaskService {
     Optional<Task> createTask(Task task, HelpSeeker helpSeeker);
     Optional<Task> getTaskById(Long id);
-    Optional<List<Task>> getOpenTasksForAHelpSeeker(HelpSeeker helpSeeker);
+    Optional<List<Task>> getBookedTasksForAHelpSeeker(HelpSeeker helpSeeker);
 }

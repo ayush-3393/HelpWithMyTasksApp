@@ -13,6 +13,7 @@ public class TaskUtility {
         task.setTaskDescription(taskRequestDto.getTaskDescription());
         task.setTaskStatus(taskRequestDto.getTaskStatus());
         task.setTaskDueDate(taskRequestDto.getTaskDueDate());
+        task.setTaskBudget(taskRequestDto.getTaskBudget());
         return task;
     }
 
@@ -21,6 +22,7 @@ public class TaskUtility {
         taskResponseDto.setTaskId(task.getId());
         taskResponseDto.setTaskTitle(task.getTaskTitle());
         taskResponseDto.setTaskDescription(task.getTaskDescription());
+        taskResponseDto.setTaskBudget(task.getTaskBudget());
         taskResponseDto.setTaskStatus(task.getTaskStatus());
         taskResponseDto.setTaskDueDate(task.getTaskDueDate());
         HelpSeeker helpSeeker = task.getHelpSeeker();

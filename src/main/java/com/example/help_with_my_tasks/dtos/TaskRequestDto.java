@@ -11,5 +11,6 @@ public class TaskRequestDto {
     private String taskName;
     private String taskDescription;
     private TaskStatus taskStatus;
+    private Integer taskBudget;
     private Date taskDueDate;
 }

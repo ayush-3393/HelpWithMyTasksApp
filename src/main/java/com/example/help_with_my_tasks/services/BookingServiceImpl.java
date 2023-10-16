@@ -4,6 +4,8 @@ import com.example.help_with_my_tasks.models.Booking;
 import com.example.help_with_my_tasks.models.Helper;
 import com.example.help_with_my_tasks.models.Task;
 import com.example.help_with_my_tasks.models.enums.BookingStatus;
+import com.example.help_with_my_tasks.models.enums.HelperStatus;
+import com.example.help_with_my_tasks.models.enums.TaskStatus;
 import com.example.help_with_my_tasks.repositories.BookingRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.PaymentService;
@@ -30,9 +32,14 @@ public class BookingServiceImpl implements BookingService {
         if (booking == null){
             return Optional.empty();
         }
+        booking.setAmount(task.getTaskBudget());
+        booking.setBookingStatus(BookingStatus.ACCEPTED);
+        helper.setHelperStatus(HelperStatus.UNAVAILABLE);
+        task.setTaskStatus(TaskStatus.BOOKED);
         booking.setHelper(helper);
         booking.setTask(task);
         booking.setCreatedAt(new Date());
+        booking.setBookingDate(new Date());
         return Optional.of(bookingRepository.save(booking));
     }
 

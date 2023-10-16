@@ -15,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,14 +45,14 @@ public class HelpSeekerController {
     }
 
     @GetMapping("/{helpSeekerId}/tasks")
-    public ResponseEntity<AllOpenTasksDto> getAllOpenTasksForAHelpSeeker(
+    public ResponseEntity<AllOpenTasksDto> getAllBookedTasksForAHelpSeeker(
             @PathVariable(name = "helpSeekerId") Long helpSeekerId) throws NotFoundException {
         Optional<HelpSeeker> helpSeekerOptional = helpSeekerService.getHelpSeekerById(helpSeekerId);
         if (helpSeekerOptional.isEmpty()){
             throw new NotFoundException("Help Seeker not found");
         }
         HelpSeeker helpSeeker = helpSeekerOptional.get();
-        Optional<List<Task>> allOpenTasksDtoOptional = taskService.getOpenTasksForAHelpSeeker(helpSeeker);
+        Optional<List<Task>> allOpenTasksDtoOptional = taskService.getBookedTasksForAHelpSeeker(helpSeeker);
         if (allOpenTasksDtoOptional.isEmpty()){
             throw new NotFoundException("No open tasks found");
         }

@@ -24,4 +24,6 @@ public class Task extends BaseModel{
 
     @ManyToOne
     private HelpSeeker helpSeeker;
+
+    private Integer taskBudget;
 }

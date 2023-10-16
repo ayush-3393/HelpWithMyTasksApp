@@ -19,5 +19,5 @@ public class HelperResponseDto {
     private String phoneNumber;
     private String address;
     private HelperStatus helperStatus;
-    private List<BookingResponseDto> bookings;
+//    private List<BookingResponseDto> bookings;
 }

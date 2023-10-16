@@ -28,53 +28,61 @@ Their data is persisted in the database.
 ### Help Seeker
 ```json
 {
-"firstName" : "Help Seeker Test FN 1",
-"lastName" : "Help Seeker Test LN 1",
-"age" : 78,
+"firstName" : "Albus",
+"lastName" : "Dumbledore",
+"age" : 689,
 "gender" : "MALE",
-"email" : "help.seeker.test.1@gmail.com",
+"email" : "old_magician@gmail.com",
 "phoneNumber" : "1234567890",
-"address" : "random help seeker address, India, Earth"
+"address" : "Hogwarts, Scotland, Earth"
 }
 ```
 ### Helper
 ```json
 {
-    "firstName" : "Helper Test FN 1",
-    "lastName" : "Helper Test LN 1",
-    "age" : 40,
-    "email" : "helper_test_1@gmail.com",
-    "gender" : "FEMALE",
+    "firstName" : "Harry",
+    "lastName" : "Potter",
+    "age" : 15,
+    "email" : "new_magician@gmail.com",
+    "gender" : "MALE",
     "phoneNumber" : "1020304050",
-    "address" : "random helper address, India, Earth",
+    "address" : "4 Privet Drive, Little Whinging, Surrey",
     "helperStatus" : "AVAILABLE"
 }
 ```
 ### Task
 ```json
 {
-    "taskName" : "Task 1",
-    "taskDescription" : "Task 1 Description",
+    "taskName" : "Defeat Voldemort",
+    "taskDescription" : "Defeat Voldemort and save the world",
     "taskStatus" : "OPEN",
+    "taskBudget" : 100,
     "taskDueDate" : "2021-10-20"
 }
 ```
-### Booking
-```json
-{
-    "bookingAmount" : 1000
-}
-```
 
-(Booking Response will have the details of who booked the task, for which help seeker and for which task)
 
-## Sample APIs:
+## Sample APIs and Responses:
 
 ### Help Seeker
 1. Create Help Seeker
 ```http request
 POST http://localhost:8090/helpseeker
 ```
+###### Response:
+```json
+{
+    "helpSeekerId": 1,
+    "firstName": "Albus",
+    "lastName": "Dumbledore",
+    "gender": "MALE",
+    "email": "old_magician@gmail.com",
+    "age": 689,
+    "phoneNumber": "1234567890",
+    "address": "Hogwarts, Scotland, Earth"
+}
+```
+
 2. Get Help Seeker by Id
 ```http request
 GET http://localhost:8090/helpseeker/{helpSeekerId}
@@ -83,6 +91,32 @@ GET http://localhost:8090/helpseeker/{helpSeekerId}
 ```http request
 GET http://localhost:8090/helpseeker
 ```
+###### Response:
+```json
+[
+    {
+        "helpSeekerId": 1,
+        "firstName": "Albus",
+        "lastName": "Dumbledore",
+        "gender": "MALE",
+        "email": "old_magician@gmail.com",
+        "age": 689,
+        "phoneNumber": "1234567890",
+        "address": "Hogwarts, Scotland, Earth"
+    },
+    {
+        "helpSeekerId": 2,
+        "firstName": "Severus",
+        "lastName": "Snape",
+        "gender": "MALE",
+        "email": "black_magician@gmail.com",
+        "age": 125,
+        "phoneNumber": "6666666666",
+        "address": "Hogwarts, Scotland, Earth"
+    }
+]
+```
+
 4. Update Help Seeker
 ```http request
 PUT http://localhost:8090/helpseeker/{helpSeekerId}
@@ -91,9 +125,26 @@ PUT http://localhost:8090/helpseeker/{helpSeekerId}
 ```http request
 DELETE http://localhost:8090/helpseeker/{helpSeekerId}
 ```
-6. Get All Open Tasks for a Help Seeker
+6. Get All Booked Tasks for a Help Seeker
 ```http request
 GET http://localhost:8090/helpseeker/{helpSeekerId}/tasks
+```
+
+###### Response:
+```json
+{
+    "tasks": [
+        {
+            "taskId": 2,
+            "taskTitle": "Play Quidditch",
+            "taskDescription": "Get the Golden Snitch and win the game",
+            "helpSeekerName": "Albus Dumbledore",
+            "taskStatus": "BOOKED",
+            "taskDueDate": "2021-10-25T00:00:00.000+00:00",
+            "taskBudget": 1000
+        }
+    ]
+}
 ```
 
 ### Helper
@@ -101,6 +152,21 @@ GET http://localhost:8090/helpseeker/{helpSeekerId}/tasks
 ```http request
 POST http://localhost:8090/helper
 ```
+###### Response:
+```json
+{
+    "id": 1,
+    "firstName": "Harry",
+    "lastName": "Potter",
+    "gender": "MALE",
+    "email": "new_magician@gmail.com",
+    "age": 15,
+    "phoneNumber": "1020304050",
+    "address": "4 Privet Drive, Little Whinging, Surrey",
+    "helperStatus": "AVAILABLE"
+}
+```
+
 2. Get Helper by Id
 ```http request
 GET http://localhost:8090/helper/{helperId}
@@ -109,6 +175,34 @@ GET http://localhost:8090/helper/{helperId}
 ```http request
 GET http://localhost:8090/helper
 ```
+###### Response:
+```json
+[
+  {
+    "id": 1,
+    "firstName": "Harry",
+    "lastName": "Potter",
+    "gender": "MALE",
+    "email": "new_magician@gmail.com",
+    "age": 15,
+    "phoneNumber": "1020304050",
+    "address": "4 Privet Drive, Little Whinging, Surrey",
+    "helperStatus": "UNAVAILABLE"
+  },
+  {
+    "id": 2,
+    "firstName": "Hermione",
+    "lastName": "Granger",
+    "gender": "FEMALE",
+    "email": "brilliant_magician@gmail.com",
+    "age": 15,
+    "phoneNumber": "3330000333",
+    "address": "8 Heathgate, Hampstead Garden Suburb, London",
+    "helperStatus": "AVAILABLE"
+  }
+]
+```
+
 4. Update Helper
 ```http request
 PUT http://localhost:8090/helper/{helperId}
@@ -122,10 +216,45 @@ DELETE http://localhost:8090/helper/{helperId}
 GET http://localhost:8090/helper/{helperId}/bookings
 ```
 
+###### Response:
+```json
+[
+    {
+        "id": 1,
+        "amount": 100,
+        "bookingDate": "2023-10-16T12:38:29.439+00:00",
+        "helperName": "Harry Potter",
+        "taskName": "Defeat Voldemort",
+        "helpSeekerName": "Albus Dumbledore",
+        "bookingStatus": "COMPLETED"
+    },
+    {
+        "id": 2,
+        "amount": 1000,
+        "bookingDate": "2023-10-16T12:48:59.547+00:00",
+        "helperName": "Harry Potter",
+        "taskName": "Play Quidditch",
+        "helpSeekerName": "Albus Dumbledore",
+        "bookingStatus": "ACCEPTED"
+    }
+]
+```
+
 ### Task
 1. Create A Task For A Help Seeker
 ```http request
 POST http://localhost:8090/tasks/{helpSeekerId}
+```
+```json
+{
+    "taskId": 1,
+    "taskTitle": "Defeat Voldemort",
+    "taskDescription": "Defeat Voldemort and save the world",
+    "helpSeekerName": "Albus Dumbledore",
+    "taskStatus": "OPEN",
+    "taskDueDate": "2021-10-20T00:00:00.000+00:00",
+    "taskBudget": 100
+}
 ```
 
 ### Booking
@@ -133,9 +262,34 @@ POST http://localhost:8090/tasks/{helpSeekerId}
 ```http request
 POST http://localhost:8090/bookings/{helperId}/{taskId}
 ```
+###### Response:
+```json
+{
+    "id": 1,
+    "amount": 100,
+    "bookingDate": "2023-10-16T12:38:29.439+00:00",
+    "helperName": "Harry Potter",
+    "taskName": "Defeat Voldemort",
+    "helpSeekerName": "Albus Dumbledore",
+    "bookingStatus": "ACCEPTED"
+}
+```
+
 2. End Booking
 ```http request
 PATCH http://localhost:8090/bookings/{bookingId}
+```
+###### Response:
+```json
+{
+    "id": 1,
+    "amount": 100,
+    "bookingDate": "2023-10-16T12:38:29.439+00:00",
+    "helperName": "Harry Potter",
+    "taskName": "Defeat Voldemort",
+    "helpSeekerName": "Albus Dumbledore",
+    "bookingStatus": "COMPLETED"
+}
 ```
 
 
