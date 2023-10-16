@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,46 @@ public class HelperServiceImpl implements HelperService {
             return Optional.empty();
         }
         return helperRepository.findById(id);
+    }
+
+    @Override
+    public Optional<List<Helper>> getAllHelpers() {
+        return Optional.of(helperRepository.findAll());
+    }
+
+    @Override
+    public Optional<Helper> updateHelperById(Long id, Helper helper) {
+        if(id == null || helper == null){
+            return Optional.empty();
+        }
+        Optional<Helper> helperOptional = helperRepository.findById(id);
+        if(helperOptional.isEmpty()){
+            return Optional.empty();
+        }
+        Helper helperToUpdate = helperOptional.get();
+        helperToUpdate.setFirstName(helper.getFirstName());
+        helperToUpdate.setLastName(helper.getLastName());
+        helperToUpdate.setGender(helper.getGender());
+        helperToUpdate.setEmail(helper.getEmail());
+        helperToUpdate.setAge(helper.getAge());
+        helperToUpdate.setPhoneNumber(helper.getPhoneNumber());
+        helperToUpdate.setAddress(helper.getAddress());
+        helperToUpdate.setUpdatedAt(new Date());
+        helperToUpdate.setHelperStatus(helper.getHelperStatus());
+        return Optional.of(helperRepository.save(helperToUpdate));
+    }
+
+    @Override
+    public Optional<Helper> deleteHelperById(Long id) {
+        if(id == null){
+            return Optional.empty();
+        }
+        Optional<Helper> helperOptional = helperRepository.findById(id);
+        if(helperOptional.isEmpty()){
+            return Optional.empty();
+        }
+        Helper helperToDelete = helperOptional.get();
+        helperToDelete.setDeleted(true);
+        return Optional.of(helperRepository.save(helperToDelete));
     }
 }
