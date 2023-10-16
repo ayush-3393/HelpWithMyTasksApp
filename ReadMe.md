@@ -5,8 +5,8 @@ booking a task and completing it.
 ## Technologies Used:
 This application is built using the following technologies:
 1. Java 17
-2. Spring Boot
-3. Spring Data JPA
+2. Spring Boot 3.1.4
+3. Spring Data JPA / Hibernate
 4. MySQL
 5. Maven Build Tool
 
