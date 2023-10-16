@@ -10,6 +10,7 @@ public class HelpSeekerUtility {
         HelpSeeker helpSeeker = new HelpSeeker();
         helpSeeker.setFirstName(helpSeekerRequestDto.getFirstName());
         helpSeeker.setLastName(helpSeekerRequestDto.getLastName());
+        helpSeeker.setGender(helpSeekerRequestDto.getGender());
         helpSeeker.setPhoneNumber(helpSeekerRequestDto.getPhoneNumber());
         helpSeeker.setAddress(helpSeekerRequestDto.getAddress());
         helpSeeker.setAge(helpSeekerRequestDto.getAge());
@@ -22,6 +23,7 @@ public class HelpSeekerUtility {
         helpSeekerResponseDto.setHelpSeekerId(helpSeeker.getId());
         helpSeekerResponseDto.setFirstName(helpSeeker.getFirstName());
         helpSeekerResponseDto.setLastName(helpSeeker.getLastName());
+        helpSeekerResponseDto.setGender(helpSeeker.getGender());
         helpSeekerResponseDto.setPhoneNumber(helpSeeker.getPhoneNumber());
         helpSeekerResponseDto.setAddress(helpSeeker.getAddress());
         helpSeekerResponseDto.setAge(helpSeeker.getAge());

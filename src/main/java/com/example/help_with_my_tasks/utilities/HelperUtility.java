@@ -10,6 +10,7 @@ public class HelperUtility {
         Helper helper = new Helper();
         helper.setFirstName(helperRequestDto.getFirstName());
         helper.setLastName(helperRequestDto.getLastName());
+        helper.setGender(helperRequestDto.getGender());
         helper.setPhoneNumber(helperRequestDto.getPhoneNumber());
         helper.setAddress(helperRequestDto.getAddress());
         helper.setHelperStatus(helperRequestDto.getHelperStatus());
@@ -23,6 +24,7 @@ public class HelperUtility {
         helperResponseDto.setId(helper.getId());
         helperResponseDto.setFirstName(helper.getFirstName());
         helperResponseDto.setLastName(helper.getLastName());
+        helperResponseDto.setGender(helper.getGender());
         helperResponseDto.setPhoneNumber(helper.getPhoneNumber());
         helperResponseDto.setAddress(helper.getAddress());
         helperResponseDto.setHelperStatus(helper.getHelperStatus());
