@@ -35,4 +35,21 @@ public class HelpSeekerServiceImpl implements HelpSeekerService {
         return Optional.of(helpSeekerRepository.findAll());
     }
 
+    @Override
+    public Optional<HelpSeeker> updateHelpSeekerById(Long helpSeekerId, HelpSeeker helpSeeker) {
+        Optional<HelpSeeker> helpSeekerOptional = helpSeekerRepository.findById(helpSeekerId);
+        if (helpSeekerOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        HelpSeeker helpSeekerToUpdate = helpSeekerOptional.get();
+        helpSeekerToUpdate.setFirstName(helpSeeker.getFirstName());
+        helpSeekerToUpdate.setLastName(helpSeeker.getLastName());
+        helpSeekerToUpdate.setGender(helpSeeker.getGender());
+        helpSeekerToUpdate.setEmail(helpSeeker.getEmail());
+        helpSeekerToUpdate.setAge(helpSeeker.getAge());
+        helpSeekerToUpdate.setPhoneNumber(helpSeeker.getPhoneNumber());
+        helpSeekerToUpdate.setAddress(helpSeeker.getAddress());
+        return Optional.of(helpSeekerRepository.save(helpSeekerToUpdate));
+    }
+
 }

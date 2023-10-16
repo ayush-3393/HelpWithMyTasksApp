@@ -90,4 +90,18 @@ public class HelpSeekerController {
         return new ResponseEntity<>(helpSeekerResponseDtos, HttpStatus.OK);
     }
 
+    @PutMapping("/{helpSeekerId}")
+    public ResponseEntity<HelpSeekerResponseDto> updateHelpSeekerById(
+            @PathVariable(name = "helpSeekerId") Long helpSeekerId,
+            @RequestBody HelpSeekerRequestDto helpSeekerRequestDto) throws NotFoundException {
+        HelpSeeker helpSeeker = HelpSeekerUtility.convertHelpSeekerRequestDtoToHelpSeeker(helpSeekerRequestDto);
+        Optional<HelpSeeker> helpSeekerOptional = helpSeekerService.updateHelpSeekerById(helpSeekerId, helpSeeker);
+        if (helpSeekerOptional.isEmpty()){
+            throw new NotFoundException("Help Seeker with id " + helpSeekerId + " not found");
+        }
+        HelpSeekerResponseDto helpSeekerResponseDto =
+                HelpSeekerUtility.convertHelpSeekerToHelpSeekerResponseDto(helpSeekerOptional.get());
+        return new ResponseEntity<>(helpSeekerResponseDto, HttpStatus.OK);
+    }
+
 }
