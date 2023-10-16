@@ -3,6 +3,7 @@ package com.example.help_with_my_tasks.services;
 import com.example.help_with_my_tasks.models.Booking;
 import com.example.help_with_my_tasks.models.Helper;
 import com.example.help_with_my_tasks.models.Task;
+import com.example.help_with_my_tasks.models.enums.BookingStatus;
 import com.example.help_with_my_tasks.repositories.BookingRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.PaymentService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,8 +46,17 @@ public class BookingServiceImpl implements BookingService {
             return Optional.empty();
         }
         Booking booking = bookingOptional.get();
+        booking.setBookingStatus(BookingStatus.COMPLETED);
         paymentService.createPayment(booking);
         return Optional.of(bookingRepository.save(booking));
+    }
+
+    @Override
+    public Optional<List<Booking>> getAllBookingsForAHelper(Helper helper) {
+        if (helper == null){
+            return Optional.empty();
+        }
+        return bookingRepository.findAllByHelperId(helper.getId());
     }
 
 }
