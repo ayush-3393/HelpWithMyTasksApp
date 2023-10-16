@@ -10,6 +10,7 @@ This application is built using the following technologies:
 4. MySQL
 5. Maven Build Tool
 
+## Overview:
 The main entities in this application:
 1. Help Seeker
 2. Helper
