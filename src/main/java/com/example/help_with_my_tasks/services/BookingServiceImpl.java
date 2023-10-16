@@ -8,6 +8,8 @@ import com.example.help_with_my_tasks.services.service_interfaces.BookingService
 import com.example.help_with_my_tasks.services.service_interfaces.PaymentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -28,6 +30,7 @@ public class BookingServiceImpl implements BookingService {
         }
         booking.setHelper(helper);
         booking.setTask(task);
+        booking.setCreatedAt(new Date());
         return Optional.of(bookingRepository.save(booking));
     }
 

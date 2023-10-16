@@ -5,6 +5,8 @@ import com.example.help_with_my_tasks.repositories.HelpSeekerRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.HelpSeekerService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ public class HelpSeekerServiceImpl implements HelpSeekerService {
         if (helpSeeker == null) {
             return Optional.empty();
         }
+        helpSeeker.setCreatedAt(new Date());
         return Optional.of(helpSeekerRepository.save(helpSeeker));
     }
 
@@ -49,7 +52,19 @@ public class HelpSeekerServiceImpl implements HelpSeekerService {
         helpSeekerToUpdate.setAge(helpSeeker.getAge());
         helpSeekerToUpdate.setPhoneNumber(helpSeeker.getPhoneNumber());
         helpSeekerToUpdate.setAddress(helpSeeker.getAddress());
+        helpSeekerToUpdate.setUpdatedAt(new Date());
         return Optional.of(helpSeekerRepository.save(helpSeekerToUpdate));
+    }
+
+    @Override
+    public Optional<HelpSeeker> deleteHelpSeekerById(Long helpSeekerId) {
+        Optional<HelpSeeker> helpSeekerOptional = helpSeekerRepository.findById(helpSeekerId);
+        if (helpSeekerOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        HelpSeeker helpSeekerToDelete = helpSeekerOptional.get();
+        helpSeekerToDelete.setDeleted(true);
+        return Optional.of(helpSeekerRepository.save(helpSeekerToDelete));
     }
 
 }

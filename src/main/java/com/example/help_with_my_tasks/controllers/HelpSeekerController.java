@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +98,20 @@ public class HelpSeekerController {
             @RequestBody HelpSeekerRequestDto helpSeekerRequestDto) throws NotFoundException {
         HelpSeeker helpSeeker = HelpSeekerUtility.convertHelpSeekerRequestDtoToHelpSeeker(helpSeekerRequestDto);
         Optional<HelpSeeker> helpSeekerOptional = helpSeekerService.updateHelpSeekerById(helpSeekerId, helpSeeker);
+        if (helpSeekerOptional.isEmpty()){
+            throw new NotFoundException("Help Seeker with id " + helpSeekerId + " not found");
+        }
+
+        HelpSeeker helpSeekerToUpdate = helpSeekerOptional.get();
+
+        HelpSeekerResponseDto helpSeekerResponseDto =
+                HelpSeekerUtility.convertHelpSeekerToHelpSeekerResponseDto(helpSeekerToUpdate);
+        return new ResponseEntity<>(helpSeekerResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{helpSeekerId}")
+    public ResponseEntity<HelpSeekerResponseDto> deleteHelpSeekerById(@PathVariable(name = "helpSeekerId") Long helpSeekerId) throws NotFoundException {
+        Optional<HelpSeeker> helpSeekerOptional = helpSeekerService.deleteHelpSeekerById(helpSeekerId);
         if (helpSeekerOptional.isEmpty()){
             throw new NotFoundException("Help Seeker with id " + helpSeekerId + " not found");
         }

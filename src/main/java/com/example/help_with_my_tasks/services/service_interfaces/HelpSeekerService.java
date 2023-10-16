@@ -10,5 +10,6 @@ public interface HelpSeekerService {
     Optional<HelpSeeker> getHelpSeekerById(Long helpSeekerId);
     Optional<List<HelpSeeker>> getAllHelpSeekers();
     Optional<HelpSeeker> updateHelpSeekerById(Long helpSeekerId, HelpSeeker helpSeeker);
+    Optional<HelpSeeker> deleteHelpSeekerById(Long helpSeekerId);
 
 }

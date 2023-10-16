@@ -10,6 +10,7 @@ import com.example.help_with_my_tasks.repositories.PaymentRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.PaymentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setBooking(booking);
         payment.setPaymentDate(new Date());
         payment.setPaymentStatus(PaymentStatus.SUCCESSFUL);
+        payment.setCreatedAt(new Date());
         paymentRepository.save(payment);
         return Optional.of(payment);
     }

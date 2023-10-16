@@ -6,9 +6,6 @@ import com.example.help_with_my_tasks.models.Booking;
 import com.example.help_with_my_tasks.models.HelpSeeker;
 import com.example.help_with_my_tasks.models.Helper;
 import com.example.help_with_my_tasks.models.Task;
-import com.example.help_with_my_tasks.models.enums.BookingStatus;
-
-import java.util.Date;
 
 public class BookingUtility {
 
@@ -22,7 +19,7 @@ public class BookingUtility {
         BookingResponseDto bookingResponseDto = new BookingResponseDto();
         bookingResponseDto.setId(booking.getId());
         bookingResponseDto.setAmount(booking.getAmount());
-        bookingResponseDto.setBookingDate(new Date());
+        bookingResponseDto.setBookingDate(booking.getBookingDate());
         Task task = booking.getTask();
         bookingResponseDto.setTaskName(task.getTaskTitle());
         Helper helper = booking.getHelper();

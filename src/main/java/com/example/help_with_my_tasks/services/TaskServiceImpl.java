@@ -7,6 +7,8 @@ import com.example.help_with_my_tasks.repositories.TaskRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.TaskService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,7 @@ public class TaskServiceImpl implements TaskService {
             return Optional.empty();
         }
         task.setHelpSeeker(helpSeeker);
+        task.setCreatedAt(new Date());
         return Optional.of(taskRepository.save(task));
     }
 
