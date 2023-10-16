@@ -136,3 +136,12 @@ POST http://localhost:8090/bookings/{helperId}/{taskId}
 ```http request
 PATCH http://localhost:8090/bookings/{bookingId}
 ```
+
+
+#### Note:
+* The application is configured to run on port 8090.
+* The database is configured to run on port 3306.
+* The database name is "help_with_my_tasks_DB".
+* All the APIs were tested using Postman.
+* If there is any issue with the JSON requests, please refer to the corresponding DTOs.
+* If there is any issue with the APIs, please refer to the corresponding Controller classes.
