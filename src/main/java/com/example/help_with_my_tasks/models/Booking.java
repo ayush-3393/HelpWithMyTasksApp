@@ -19,6 +19,7 @@ public class Booking extends BaseModel{
     Task task;
 
     private Integer amount;
+
     private Date bookingDate;
 
     @Enumerated(EnumType.STRING)
