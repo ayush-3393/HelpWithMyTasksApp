@@ -5,7 +5,6 @@ import com.example.help_with_my_tasks.dtos.HelperResponseDto;
 import com.example.help_with_my_tasks.models.Helper;
 
 public class HelperUtility {
-
     public static Helper convertHelperRequsestDtoToHelper(HelperRequestDto helperRequestDto){
         Helper helper = new Helper();
         helper.setFirstName(helperRequestDto.getFirstName());

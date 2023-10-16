@@ -34,9 +34,7 @@ public class BookingController {
     @PostMapping("{helperId}/{taskId}")
     public ResponseEntity<BookingResponseDto> createBooking(@PathVariable Long helperId,
                                                             @PathVariable Long taskId) throws NotFoundException {
-//        Booking booking = BookingUtility.convertBookingRequestDtoToBooking(bookingRequestDto);
         Booking booking = new Booking();
-//        booking.setBookingStatus(BookingStatus.ACCEPTED);
         Optional<Helper> helperOptional = helperService.getHelperById(helperId);
         if (helperOptional.isEmpty()){
             throw new NotFoundException("Helper not found");
@@ -46,9 +44,7 @@ public class BookingController {
             throw new NotFoundException("Task not found");
         }
         Helper helper = helperOptional.get();
-//        helper.setHelperStatus(HelperStatus.UNAVAILABLE);
         Task task = taskOptional.get();
-//        task.setTaskStatus(TaskStatus.BOOKED);
         Optional<Booking> bookingOptional = bookingService.createBooking(booking, helper, task);
         if (bookingOptional.isEmpty()){
             throw new NotFoundException("Booking not found");
@@ -65,7 +61,6 @@ public class BookingController {
             throw new NotFoundException("Booking not found");
         }
         Booking booking = bookingOptional.get();
-//        booking.setBookingStatus(BookingStatus.COMPLETED);
         return new ResponseEntity<>(BookingUtility.convertBookingToBookingResponseDto(booking), HttpStatus.OK);
     }
 

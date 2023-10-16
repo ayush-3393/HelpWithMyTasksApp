@@ -5,7 +5,6 @@ import com.example.help_with_my_tasks.dtos.HelpSeekerResponseDto;
 import com.example.help_with_my_tasks.models.HelpSeeker;
 
 public class HelpSeekerUtility {
-
     public static HelpSeeker convertHelpSeekerRequestDtoToHelpSeeker(HelpSeekerRequestDto helpSeekerRequestDto){
         HelpSeeker helpSeeker = new HelpSeeker();
         helpSeeker.setFirstName(helpSeekerRequestDto.getFirstName());

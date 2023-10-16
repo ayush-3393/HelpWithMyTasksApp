@@ -7,13 +7,6 @@ import com.example.help_with_my_tasks.models.Helper;
 import com.example.help_with_my_tasks.models.Task;
 
 public class BookingUtility {
-
-//    public static Booking convertBookingRequestDtoToBooking(BookingRequestDto bookingRequestDto){
-//        Booking booking = new Booking();
-//        booking.setAmount(bookingRequestDto.getAmount());
-//        return booking;
-//    }
-
     public static BookingResponseDto convertBookingToBookingResponseDto(Booking booking){
         BookingResponseDto bookingResponseDto = new BookingResponseDto();
         bookingResponseDto.setId(booking.getId());

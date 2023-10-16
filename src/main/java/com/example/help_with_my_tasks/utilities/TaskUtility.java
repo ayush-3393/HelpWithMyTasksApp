@@ -6,7 +6,6 @@ import com.example.help_with_my_tasks.models.HelpSeeker;
 import com.example.help_with_my_tasks.models.Task;
 
 public class TaskUtility {
-
     public static Task convertTaskRequestDtoToTask(TaskRequestDto taskRequestDto){
         Task task = new Task();
         task.setTaskTitle(taskRequestDto.getTaskName());
