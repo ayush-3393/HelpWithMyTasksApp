@@ -20,7 +20,7 @@ The main entities in this application:
 Their data is persisted in the database.
 
 * The Help Seeker can create a task (or multiple tasks)
-* The Helper can book a task for an amount and complete it.
+* The Helper can book a task (or multiple tasks) for an amount and complete it.
 * After completing the task, Booking ends and Payment is generated.
 
 ## Sample Requests:
