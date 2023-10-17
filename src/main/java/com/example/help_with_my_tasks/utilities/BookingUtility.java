@@ -19,6 +19,8 @@ public class BookingUtility {
         HelpSeeker helpSeeker = task.getHelpSeeker();
         bookingResponseDto.setHelpSeekerName(helpSeeker.getFirstName() + " " + helpSeeker.getLastName());
         bookingResponseDto.setBookingStatus(booking.getBookingStatus());
+        bookingResponseDto.setRatingFromHelperToHelpSeeker(booking.getRatingFromHelperToHelpSeeker());
+        bookingResponseDto.setRatingFromHelpSeekerToHelper(booking.getRatingFromHelpSeekerToHelper());
         return bookingResponseDto;
     }
 

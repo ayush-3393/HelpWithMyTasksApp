@@ -2,6 +2,7 @@ package com.example.help_with_my_tasks.models;
 
 import com.example.help_with_my_tasks.models.enums.Gender;
 import com.example.help_with_my_tasks.models.enums.HelperStatus;
+import com.example.help_with_my_tasks.models.interfaces.RatingProvider;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-public class Helper extends BaseModel{
+public class Helper extends BaseModel implements RatingProvider {
     private String firstName;
     private String lastName;
 
@@ -35,4 +36,11 @@ public class Helper extends BaseModel{
     private List<Booking> bookings;
 
 
+    private Double rating;
+    private Integer countOfBookingsCompleted;
+
+    @Override
+    public void updateRating(Integer newRating) {
+        this.rating = ((this.rating * (this.countOfBookingsCompleted)) + newRating) / (this.countOfBookingsCompleted + 1);
+    }
 }

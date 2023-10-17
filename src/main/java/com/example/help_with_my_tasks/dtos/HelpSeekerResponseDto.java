@@ -17,4 +17,5 @@ public class HelpSeekerResponseDto {
     private Integer age;
     private String phoneNumber;
     private String address;
+    private Double rating;
 }

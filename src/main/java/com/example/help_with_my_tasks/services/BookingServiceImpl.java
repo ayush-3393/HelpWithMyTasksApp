@@ -1,17 +1,16 @@
 package com.example.help_with_my_tasks.services;
 
-import com.example.help_with_my_tasks.models.Booking;
-import com.example.help_with_my_tasks.models.Helper;
-import com.example.help_with_my_tasks.models.Task;
+import com.example.help_with_my_tasks.models.*;
 import com.example.help_with_my_tasks.models.enums.BookingStatus;
 import com.example.help_with_my_tasks.models.enums.HelperStatus;
 import com.example.help_with_my_tasks.models.enums.TaskStatus;
 import com.example.help_with_my_tasks.repositories.BookingRepository;
+import com.example.help_with_my_tasks.repositories.HelpSeekerRepository;
+import com.example.help_with_my_tasks.repositories.HelperRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.PaymentService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +20,14 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
+    private final HelpSeekerRepository helpSeekerRepository;
+    private final HelperRepository helperRepository;
 
-    public BookingServiceImpl(BookingRepository bookingRepository, PaymentService paymentService) {
+    public BookingServiceImpl(BookingRepository bookingRepository, PaymentService paymentService, HelpSeekerRepository helpSeekerRepository, HelperRepository helperRepository) {
         this.bookingRepository = bookingRepository;
         this.paymentService = paymentService;
+        this.helpSeekerRepository = helpSeekerRepository;
+        this.helperRepository = helperRepository;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Optional<Booking> endBooking(Long bookingId) {
+    public Optional<Booking> endBooking(Long bookingId, Rating rating) {
         if (bookingId == null){
             return Optional.empty();
         }
@@ -54,6 +57,36 @@ public class BookingServiceImpl implements BookingService {
         }
         Booking booking = bookingOptional.get();
         booking.setBookingStatus(BookingStatus.COMPLETED);
+
+        booking.setRatingFromHelperToHelpSeeker(rating.getRatingFromHelperToHelpSeeker());
+        booking.setRatingFromHelpSeekerToHelper(rating.getRatingFromHelpSeekerToHelper());
+
+        HelpSeeker helpSeeker = booking.getTask().getHelpSeeker();
+        Helper helper = booking.getHelper();
+
+        if (helpSeeker.getCountOfTasksCompleted() == null) {
+            helpSeeker.setCountOfTasksCompleted(0);
+        }
+        if (helper.getCountOfBookingsCompleted() == null) {
+            helper.setCountOfBookingsCompleted(0);
+        }
+
+        if (helpSeeker.getRating() == null){
+            helpSeeker.setRating(0D);
+        }
+        if (helper.getRating() == null){
+            helper.setRating(0D);
+        }
+
+        helpSeeker.updateRating(rating.getRatingFromHelperToHelpSeeker());
+        helper.updateRating(rating.getRatingFromHelpSeekerToHelper());
+
+        helpSeeker.setCountOfTasksCompleted(helpSeeker.getCountOfTasksCompleted() + 1);
+        helper.setCountOfBookingsCompleted(helper.getCountOfBookingsCompleted() + 1);
+
+        helpSeekerRepository.save(helpSeeker);
+        helperRepository.save(helper);
+
         paymentService.createPayment(booking);
         return Optional.of(bookingRepository.save(booking));
     }

@@ -1,14 +1,17 @@
 package com.example.help_with_my_tasks.controllers;
 
 import com.example.help_with_my_tasks.dtos.BookingResponseDto;
+import com.example.help_with_my_tasks.dtos.RatingDto;
 import com.example.help_with_my_tasks.exceptions.NotFoundException;
 import com.example.help_with_my_tasks.models.Booking;
 import com.example.help_with_my_tasks.models.Helper;
+import com.example.help_with_my_tasks.models.Rating;
 import com.example.help_with_my_tasks.models.Task;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.HelperService;
 import com.example.help_with_my_tasks.services.service_interfaces.TaskService;
 import com.example.help_with_my_tasks.utilities.BookingUtility;
+import com.example.help_with_my_tasks.utilities.RatingUtility;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +58,13 @@ public class BookingController {
     }
 
     @PatchMapping("{bookingId}")
-    public ResponseEntity<BookingResponseDto> endBooking(@PathVariable(name = "bookingId") Long bookingId) throws NotFoundException {
-        Optional<Booking> bookingOptional = bookingService.endBooking(bookingId);
+    public ResponseEntity<BookingResponseDto> endBooking( @RequestBody RatingDto ratingDto,
+                                                          @PathVariable(name = "bookingId") Long bookingId)
+            throws NotFoundException {
+
+        Rating rating = RatingUtility.convertRatingDtoToRating(ratingDto);
+
+        Optional<Booking> bookingOptional = bookingService.endBooking(bookingId, rating);
         if (bookingOptional.isEmpty()){
             throw new NotFoundException("Booking not found");
         }

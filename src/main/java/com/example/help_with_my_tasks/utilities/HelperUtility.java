@@ -29,6 +29,7 @@ public class HelperUtility {
         helperResponseDto.setHelperStatus(helper.getHelperStatus());
         helperResponseDto.setAge(helper.getAge());
         helperResponseDto.setEmail(helper.getEmail());
+        helperResponseDto.setRating(helper.getRating());
         return helperResponseDto;
     }
 

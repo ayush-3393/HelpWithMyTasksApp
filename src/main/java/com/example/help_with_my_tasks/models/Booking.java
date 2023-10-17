@@ -24,4 +24,7 @@ public class Booking extends BaseModel{
 
     @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
+
+    private Integer ratingFromHelpSeekerToHelper;
+    private Integer ratingFromHelperToHelpSeeker;
 }

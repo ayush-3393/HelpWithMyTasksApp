@@ -16,4 +16,6 @@ public class BookingResponseDto {
     private String taskName;
     private String helpSeekerName;
     private BookingStatus bookingStatus;
+    private Integer ratingFromHelpSeekerToHelper;
+    private Integer ratingFromHelperToHelpSeeker;
 }

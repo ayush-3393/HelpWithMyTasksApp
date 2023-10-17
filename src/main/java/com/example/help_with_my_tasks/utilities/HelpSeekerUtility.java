@@ -27,6 +27,7 @@ public class HelpSeekerUtility {
         helpSeekerResponseDto.setAddress(helpSeeker.getAddress());
         helpSeekerResponseDto.setAge(helpSeeker.getAge());
         helpSeekerResponseDto.setEmail(helpSeeker.getEmail());
+        helpSeekerResponseDto.setRating(helpSeeker.getRating());
         return helpSeekerResponseDto;
     }
 

@@ -19,4 +19,5 @@ public class HelperResponseDto {
     private String phoneNumber;
     private String address;
     private HelperStatus helperStatus;
+    private Double rating;
 }

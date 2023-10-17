@@ -1,6 +1,7 @@
 package com.example.help_with_my_tasks.models;
 
 import com.example.help_with_my_tasks.models.enums.Gender;
+import com.example.help_with_my_tasks.models.interfaces.RatingProvider;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-public class HelpSeeker extends BaseModel{
+public class HelpSeeker extends BaseModel implements RatingProvider {
     private String firstName;
     private String lastName;
 
@@ -29,4 +30,12 @@ public class HelpSeeker extends BaseModel{
             mappedBy = "helpSeeker",
             cascade = jakarta.persistence.CascadeType.REMOVE)
     private List<Task> tasks;
+
+    private Double rating;
+    private Integer countOfTasksCompleted;
+
+    @Override
+    public void updateRating(Integer newRating) {
+        this.rating = ((this.rating * (this.countOfTasksCompleted)) + newRating) / (this.countOfTasksCompleted + 1);
+    }
 }

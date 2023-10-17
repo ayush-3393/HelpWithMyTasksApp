@@ -301,6 +301,7 @@ PATCH http://localhost:8090/bookings/{bookingId}
 6. Add payment gateway.
 7. Add UI.
 8. Add feature of getting all the tasks in the nearby location of the Helper.
+9. Add feature of rating the help seeker and helper.
 
 ### Note:
 * The application is configured to run on port 8090.
