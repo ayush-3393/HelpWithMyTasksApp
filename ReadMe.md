@@ -23,6 +23,8 @@ Their data is persisted in the database.
 * The Help Seeker can create a task (or multiple tasks)
 * The Helper can book a task (or multiple tasks) for an amount and complete it.
 * After completing the task, Booking ends and Payment is generated.
+* Upon ending a booking a Help Seeker can rate the Helper and vice versa.
+* The rating gets reflected on the Helper's or Help Seeker's corresponding profile.
 
 ## Sample Requests:
 ### Help Seeker
@@ -60,7 +62,13 @@ Their data is persisted in the database.
     "taskDueDate" : "2021-10-20"
 }
 ```
-
+### End Booking
+```json
+{
+    "ratingFromHelpSeekerToHelper" : 2,
+    "ratingFromHelperToHelpSeeker" : 7
+}
+```
 
 ## Sample APIs and Responses:
 
@@ -72,14 +80,15 @@ POST http://localhost:8090/helpseeker
 ###### Response:
 ```json
 {
-    "helpSeekerId": 1,
-    "firstName": "Albus",
-    "lastName": "Dumbledore",
-    "gender": "MALE",
-    "email": "old_magician@gmail.com",
-    "age": 689,
-    "phoneNumber": "1234567890",
-    "address": "Hogwarts, Scotland, Earth"
+  "helpSeekerId": 1,
+  "firstName": "Albus",
+  "lastName": "Dumbledore",
+  "gender": "MALE",
+  "email": "old_magician@gmail.com",
+  "age": 689,
+  "phoneNumber": "1234567890",
+  "address": "Hogwarts, Scotland, Earth",
+  "rating": null
 }
 ```
 
@@ -87,6 +96,21 @@ POST http://localhost:8090/helpseeker
 ```http request
 GET http://localhost:8090/helpseeker/{helpSeekerId}
 ```
+###### Response:
+```json
+{
+    "helpSeekerId": 1,
+    "firstName": "Albus",
+    "lastName": "Dumbledore",
+    "gender": "MALE",
+    "email": "old_magician@gmail.com",
+    "age": 689,
+    "phoneNumber": "1234567890",
+    "address": "Hogwarts, Scotland, Earth",
+    "rating": 4.666666666666667
+}
+```
+
 3. Get All Help Seekers
 ```http request
 GET http://localhost:8090/helpseeker
@@ -102,7 +126,8 @@ GET http://localhost:8090/helpseeker
         "email": "old_magician@gmail.com",
         "age": 689,
         "phoneNumber": "1234567890",
-        "address": "Hogwarts, Scotland, Earth"
+        "address": "Hogwarts, Scotland, Earth",
+        "rating": null
     },
     {
         "helpSeekerId": 2,
@@ -112,7 +137,8 @@ GET http://localhost:8090/helpseeker
         "email": "black_magician@gmail.com",
         "age": 125,
         "phoneNumber": "6666666666",
-        "address": "Hogwarts, Scotland, Earth"
+        "address": "Hogwarts, Scotland, Earth",
+        "rating": null
     }
 ]
 ```
@@ -155,6 +181,27 @@ POST http://localhost:8090/helper
 ###### Response:
 ```json
 {
+  "id": 1,
+  "firstName": "Harry",
+  "lastName": "Potter",
+  "gender": "MALE",
+  "email": "new_magician@gmail.com",
+  "age": 15,
+  "phoneNumber": "1020304050",
+  "address": "4 Privet Drive, Little Whinging, Surrey",
+  "helperStatus": "AVAILABLE",
+  "rating": null
+}
+
+```
+
+2. Get Helper by Id
+```http request
+GET http://localhost:8090/helper/{helperId}
+```
+###### Response:
+```json
+{
     "id": 1,
     "firstName": "Harry",
     "lastName": "Potter",
@@ -163,14 +210,11 @@ POST http://localhost:8090/helper
     "age": 15,
     "phoneNumber": "1020304050",
     "address": "4 Privet Drive, Little Whinging, Surrey",
-    "helperStatus": "AVAILABLE"
+    "helperStatus": "UNAVAILABLE",
+    "rating": 3.0
 }
 ```
 
-2. Get Helper by Id
-```http request
-GET http://localhost:8090/helper/{helperId}
-```
 3. Get All Helpers
 ```http request
 GET http://localhost:8090/helper
@@ -187,7 +231,8 @@ GET http://localhost:8090/helper
     "age": 15,
     "phoneNumber": "1020304050",
     "address": "4 Privet Drive, Little Whinging, Surrey",
-    "helperStatus": "UNAVAILABLE"
+    "helperStatus": "UNAVAILABLE",
+    "rating": null
   },
   {
     "id": 2,
@@ -198,7 +243,8 @@ GET http://localhost:8090/helper
     "age": 15,
     "phoneNumber": "3330000333",
     "address": "8 Heathgate, Hampstead Garden Suburb, London",
-    "helperStatus": "AVAILABLE"
+    "helperStatus": "AVAILABLE",
+    "rating": null
   }
 ]
 ```
@@ -219,24 +265,39 @@ GET http://localhost:8090/helper/{helperId}/bookings
 ###### Response:
 ```json
 [
-    {
-        "id": 1,
-        "amount": 100,
-        "bookingDate": "2023-10-16T12:38:29.439+00:00",
-        "helperName": "Harry Potter",
-        "taskName": "Defeat Voldemort",
-        "helpSeekerName": "Albus Dumbledore",
-        "bookingStatus": "COMPLETED"
-    },
-    {
-        "id": 2,
-        "amount": 1000,
-        "bookingDate": "2023-10-16T12:48:59.547+00:00",
-        "helperName": "Harry Potter",
-        "taskName": "Play Quidditch",
-        "helpSeekerName": "Albus Dumbledore",
-        "bookingStatus": "ACCEPTED"
-    }
+  {
+    "id": 1,
+    "amount": 100,
+    "bookingDate": "2023-10-17T07:44:19.838+00:00",
+    "helperName": "Harry Potter",
+    "taskName": "Defeat Voldy",
+    "helpSeekerName": "Albus Dumbledore",
+    "bookingStatus": "COMPLETED",
+    "ratingFromHelpSeekerToHelper": 3,
+    "ratingFromHelperToHelpSeeker": 4
+  },
+  {
+    "id": 2,
+    "amount": 100,
+    "bookingDate": "2023-10-17T07:45:13.522+00:00",
+    "helperName": "Harry Potter",
+    "taskName": "Defeat Snape",
+    "helpSeekerName": "Albus Dumbledore",
+    "bookingStatus": "COMPLETED",
+    "ratingFromHelpSeekerToHelper": 4,
+    "ratingFromHelperToHelpSeeker": 3
+  },
+  {
+    "id": 3,
+    "amount": 100,
+    "bookingDate": "2023-10-17T07:46:12.379+00:00",
+    "helperName": "Harry Potter",
+    "taskName": "Play Quidditch",
+    "helpSeekerName": "Albus Dumbledore",
+    "bookingStatus": "COMPLETED",
+    "ratingFromHelpSeekerToHelper": 2,
+    "ratingFromHelperToHelpSeeker": 7
+  }
 ]
 ```
 
@@ -282,13 +343,15 @@ PATCH http://localhost:8090/bookings/{bookingId}
 ###### Response:
 ```json
 {
-    "id": 1,
-    "amount": 100,
-    "bookingDate": "2023-10-16T12:38:29.439+00:00",
-    "helperName": "Harry Potter",
-    "taskName": "Defeat Voldemort",
-    "helpSeekerName": "Albus Dumbledore",
-    "bookingStatus": "COMPLETED"
+  "id": 3,
+  "amount": 100,
+  "bookingDate": "2023-10-17T07:46:12.379+00:00",
+  "helperName": "Harry Potter",
+  "taskName": "Play Quidditch",
+  "helpSeekerName": "Albus Dumbledore",
+  "bookingStatus": "COMPLETED",
+  "ratingFromHelpSeekerToHelper": 2,
+  "ratingFromHelperToHelpSeeker": 7
 }
 ```
 
@@ -301,7 +364,6 @@ PATCH http://localhost:8090/bookings/{bookingId}
 6. Add payment gateway.
 7. Add UI.
 8. Add feature of getting all the tasks in the nearby location of the Helper.
-9. Add feature of rating the help seeker and helper.
 
 ### Note:
 * The application is configured to run on port 8090.

@@ -36,6 +36,7 @@ public class HelpSeeker extends BaseModel implements RatingProvider {
 
     @Override
     public void updateRating(Integer newRating) {
-        this.rating = ((this.rating * (this.countOfTasksCompleted)) + newRating) / (this.countOfTasksCompleted + 1);
+        this.rating =
+                ((this.rating * (this.countOfTasksCompleted)) + newRating) / (this.countOfTasksCompleted + 1);
     }
 }
