@@ -8,7 +8,8 @@ This application is built using the following technologies:
 2. Spring Boot 3.1.4
 3. Spring Data JPA / Hibernate
 4. MySQL
-5. Maven Build Tool
+5. Kafka + Zookeeper
+6. Maven Build Tool
 
 ## Overview:
 The main entities in this application:
@@ -25,6 +26,7 @@ Their data is persisted in the database.
 * After completing the task, Booking ends and Payment is generated.
 * Upon ending a booking a Help Seeker can rate the Helper and vice versa.
 * The rating gets reflected on the Helper's or Help Seeker's corresponding profile.
+* Upon successful booking creation, a notification is sent to the Help Seeker and the Helper.
 
 ## Sample Requests:
 ### Help Seeker
@@ -355,15 +357,22 @@ PATCH http://localhost:8090/bookings/{bookingId}
 }
 ```
 
+## Notification Sender Using Kafka and Zookeeper
+1. Upon Booking Creation, booking (as a producer) sends a notification to HelpSeeker and Helper (consumers).
+2. To get simultaneous notifications, created 2 partitions in the topic and added both HelpSeeker and Helper
+to different consumer groups.
+3. If both the consumers are in the same consumer group, 
+Case 1: With only 1 partition: only one of them will receive the notification.
+Case 2: With 2 partitions: both of them will receive the notification but not simultaneously.
+
 ## Future Scope:
 1. Add security to the application, using Spring Security.
 2. Add unit test cases.
 3. Add integration test cases.
 4. Add logging.
-5. Add notification service.
-6. Add payment gateway.
-7. Add UI.
-8. Add feature of getting all the tasks in the nearby location of the Helper.
+5. Add payment gateway.
+6. Add UI.
+7. Add feature of getting all the tasks in the nearby location of the Helper.
 
 ### Note:
 * The application is configured to run on port 8090.

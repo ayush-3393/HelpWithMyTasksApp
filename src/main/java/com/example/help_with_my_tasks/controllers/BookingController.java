@@ -1,12 +1,10 @@
 package com.example.help_with_my_tasks.controllers;
 
+import com.example.help_with_my_tasks.dtos.BookingNotificationResponseDto;
 import com.example.help_with_my_tasks.dtos.BookingResponseDto;
 import com.example.help_with_my_tasks.dtos.RatingDto;
 import com.example.help_with_my_tasks.exceptions.NotFoundException;
-import com.example.help_with_my_tasks.models.Booking;
-import com.example.help_with_my_tasks.models.Helper;
-import com.example.help_with_my_tasks.models.Rating;
-import com.example.help_with_my_tasks.models.Task;
+import com.example.help_with_my_tasks.models.*;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.HelperService;
 import com.example.help_with_my_tasks.services.service_interfaces.TaskService;
@@ -53,6 +51,17 @@ public class BookingController {
             throw new NotFoundException("Booking not found");
         }
         Booking bookingCreated = bookingOptional.get();
+
+        Notification notification = new Notification();
+        String notificationMessage =
+                "Booking for task : " + bookingCreated.getTask().getTaskTitle()
+                + " is done between " + bookingCreated.getHelper().getFirstName() + " " + bookingCreated.getHelper().getLastName()
+                + " and " + bookingCreated.getTask().getHelpSeeker().getFirstName() + " " + bookingCreated.getTask().getHelpSeeker().getLastName();
+
+        notification.setNotificationMessage(notificationMessage);
+
+        bookingService.sendNotification(notification);
+
         BookingResponseDto bookingResponseDto = BookingUtility.convertBookingToBookingResponseDto(bookingCreated);
         return new ResponseEntity<>(bookingResponseDto, HttpStatus.OK);
     }

@@ -1,11 +1,15 @@
 package com.example.help_with_my_tasks.services;
 
+import com.example.help_with_my_tasks.constants.KafkaConstants;
 import com.example.help_with_my_tasks.models.Helper;
+import com.example.help_with_my_tasks.models.Notification;
 import com.example.help_with_my_tasks.repositories.HelperRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.HelperService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +18,7 @@ import java.util.Optional;
 public class HelperServiceImpl implements HelperService {
 
     private final HelperRepository helperRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelperServiceImpl.class);
 
     public HelperServiceImpl(HelperRepository helperRepository) {
         this.helperRepository = helperRepository;
@@ -76,4 +81,13 @@ public class HelperServiceImpl implements HelperService {
         helperToDelete.setDeleted(true);
         return Optional.of(helperRepository.save(helperToDelete));
     }
+
+    @KafkaListener(
+            topics = KafkaConstants.BOOKING_TOPIC_NAME,
+            groupId = KafkaConstants.BOOKING_HELPER_GROUP_ID)
+    public void consumeNotification(Notification notification) {
+        String loggerInfo = "Helper received notification : " + notification.getNotificationMessage();
+        LOGGER.info(loggerInfo);
+    }
+
 }

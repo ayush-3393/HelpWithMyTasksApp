@@ -1,5 +1,6 @@
 package com.example.help_with_my_tasks.services;
 
+import com.example.help_with_my_tasks.constants.KafkaConstants;
 import com.example.help_with_my_tasks.models.*;
 import com.example.help_with_my_tasks.models.enums.BookingStatus;
 import com.example.help_with_my_tasks.models.enums.HelperStatus;
@@ -9,6 +10,12 @@ import com.example.help_with_my_tasks.repositories.HelpSeekerRepository;
 import com.example.help_with_my_tasks.repositories.HelperRepository;
 import com.example.help_with_my_tasks.services.service_interfaces.BookingService;
 import com.example.help_with_my_tasks.services.service_interfaces.PaymentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,11 +30,19 @@ public class BookingServiceImpl implements BookingService {
     private final HelpSeekerRepository helpSeekerRepository;
     private final HelperRepository helperRepository;
 
-    public BookingServiceImpl(BookingRepository bookingRepository, PaymentService paymentService, HelpSeekerRepository helpSeekerRepository, HelperRepository helperRepository) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookingServiceImpl.class);
+    private final KafkaTemplate<String, Notification> kafkaTemplate;
+
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              PaymentService paymentService,
+                              HelpSeekerRepository helpSeekerRepository,
+                              HelperRepository helperRepository,
+                              KafkaTemplate<String, Notification> kafkaTemplate) {
         this.bookingRepository = bookingRepository;
         this.paymentService = paymentService;
         this.helpSeekerRepository = helpSeekerRepository;
         this.helperRepository = helperRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -97,6 +112,17 @@ public class BookingServiceImpl implements BookingService {
             return Optional.empty();
         }
         return bookingRepository.findAllByHelperId(helper.getId());
+    }
+
+    @Override
+    public void sendNotification(Notification notification) {
+        LOGGER.info("Sending notification: {}", notification.getNotificationMessage());
+        Message<Notification> message =
+                MessageBuilder
+                        .withPayload(notification)
+                        .setHeader(KafkaHeaders.TOPIC, KafkaConstants.BOOKING_TOPIC_NAME)
+                        .build();
+        kafkaTemplate.send(message);
     }
 
 }
