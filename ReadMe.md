@@ -27,6 +27,7 @@ Their data is persisted in the database.
 * Upon ending a booking a Help Seeker can rate the Helper and vice versa.
 * The rating gets reflected on the Helper's or Help Seeker's corresponding profile.
 * Upon successful booking creation, a notification is sent to the Help Seeker and the Helper.
+* On ending a Booking, a notification is sent to the Help Seeker and the Helper.
 
 ## Sample Requests:
 ### Help Seeker
