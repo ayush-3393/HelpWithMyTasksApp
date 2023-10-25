@@ -78,6 +78,15 @@ public class BookingController {
             throw new NotFoundException("Booking not found");
         }
         Booking booking = bookingOptional.get();
+
+        Notification notification = new Notification();
+        String notificationMessage =
+                "Booking for task : " + booking.getTask().getTaskTitle() + " has ended";
+
+        notification.setNotificationMessage(notificationMessage);
+
+        bookingService.sendNotification(notification);
+
         return new ResponseEntity<>(BookingUtility.convertBookingToBookingResponseDto(booking), HttpStatus.OK);
     }
 

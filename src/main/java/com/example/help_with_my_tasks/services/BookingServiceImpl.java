@@ -72,6 +72,7 @@ public class BookingServiceImpl implements BookingService {
         }
         Booking booking = bookingOptional.get();
         booking.setBookingStatus(BookingStatus.COMPLETED);
+        booking.setDeleted(true);
 
         booking.setRatingFromHelperToHelpSeeker(rating.getRatingFromHelperToHelpSeeker());
         booking.setRatingFromHelpSeekerToHelper(rating.getRatingFromHelpSeekerToHelper());
